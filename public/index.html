@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PULSO - Red Social P2P Minimalista</title>
+    <style>
+        :root {
+            --bg-color: #F0F0F0;
+            --text-color: #000000;
+            --border-color: #AAAAAA;
+            --link-color: #0000FF;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Consolas', 'Courier New', monospace;
+            max-width: 702px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+        h1 { font-size: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+        h2 { font-size: 18px; margin-top: 30px; }
+        p { line-height: 1.6; }
+        .download-buttons { margin: 20px 0; }
+        .download-buttons a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .download-buttons a:hover {
+            background-color: var(--border-color);
+        }
+        .status {
+            margin-top: 30px;
+            padding: 10px;
+            border: 1px dashed var(--border-color);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PULSO</h1>
+    <p><strong>Red Social P2P Minimalista</strong></p>
+    
+    <p>Microblogging ultra ligero para intercambiar mensajes y links entre usuarios activos. Sin servidores centrales de contenido, solo conexiones directas.</p>
+    
+    <h2>Características</h2>
+    <ul>
+        <li>Posts públicos de 280 caracteres</li>
+        <li>Chats privados P2P cifrados</li>
+        <li>Timeline distribuida entre nodos cercanos</li>
+        <li>Persistencia local (IndexedDB)</li>
+        <li>Estética retro minimalista</li>
+    </ul>
+    
+    <h2>Descargar</h2>
+    <div class="download-buttons">
+        <a href="/downloads/pulso-linux.AppImage">LINUX</a>
+        <a href="/downloads/pulso-mac.dmg">macOS</a>
+        <a href="/downloads/pulso-win.exe">WINDOWS</a>
+    </div>
+    
+    <p style="font-size: 12px; color: var(--border-color);">
+        * Los ejecutables estarán disponibles próximamente.<br>
+        * Código fuente y documentación en desarrollo.
+    </p>
+    
+    <div class="status">
+        <strong>Estado del servidor:</strong> <span id="server-status">Verificando...</span>
+    </div>
+    
+    <script>
+        // Test de conexión WebSocket
+        const ws = new WebSocket(window.location.protocol === 'https:' ? 'wss://' : 'ws://' + window.location.host);
+        
+        ws.onopen = () => {
+            document.getElementById('server-status').textContent = '🟢 ONLINE - WebSocket activo';
+            document.getElementById('server-status').style.color = '#00AA00';
+        };
+        
+        ws.onerror = () => {
+            document.getElementById('server-status').textContent = '🔴 ERROR - WebSocket no disponible';
+            document.getElementById('server-status').style.color = '#CC0000';
+        };
+        
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === 'WELCOME') {
+                console.log('Conectado al servidor PULSO:', data);
+            }
+        };
+    </script>
+</body>
+</html>
