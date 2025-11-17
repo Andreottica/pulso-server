@@ -1,0 +1,16 @@
+{
+  "name": "pulso-server",
+  "version": "1.0.0",
+  "description": "Servidor central P2P para PULSO",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.14.2",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
